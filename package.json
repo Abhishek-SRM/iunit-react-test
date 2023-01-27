@@ -18,12 +18,80 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "iunit",
+          "title": "iUnit",
+          "icon": "$(debug-disconnect)"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "iunit.objectExplorer",
+        "contents": "Connect to Code for IBM i Before Continuing to iUnit \n [Refresh](command:iunit.refreshEntry)",
+        "when": "!code-for-ibmi:connected"
+      }
+    ],
+    "views": {
+      "iunit": [
+        {
+          "id": "iunit.RepoExplorer",
+          "name": "Repository Explorer"
+        },
+        {
+          "id": "iunit.testExplorer",
+          "name": "TestExplorer"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "vscode-react-webview-starter.openWebview",
         "title": "React Webview: Open webview"
+      },
+      {
+        "command": "iunit.addRepositoryConnection",
+        "title": "Add",
+        "category": "iUnit",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iunit.testExplorer",
+        "title": "Add 2",
+        "category": "iUnit",
+        "icon": "$(add)"
+      },
+      {
+        "command": "iunit.refreshRepository",
+        "title": "Refresh",
+        "category": "iUnit",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "iunit.getTestcases",
+        "title": "Fetch TestCases",
+        "category": "iUnit",
+        "icon": "$(play)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "iunit.refreshRepository",
+          "group": "navigation",
+          "when": "view == iunit.RepoExplorer"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "iunit.getTestcases",
+          "group": "inline",
+          "when": "view == iunit.RepoExplorer && viewItem == iunit-testcases"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -68,5 +136,14 @@
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@halcyontech/vscode-ibmi-types": "^1.6.8",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.6",
+    "@vscode/webview-ui-toolkit": "^1.2.1",
+    "material-icons": "^1.13.1"
   }
 }

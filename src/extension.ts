@@ -4,8 +4,10 @@ import { join } from 'path';
 import * as vscode from 'vscode';
 import { ExtensionContext, ExtensionMode, Uri, Webview } from 'vscode';
 import { MessageHandlerData } from '@estruyf/vscode';
+import { ObjectExplorer } from './ObjectBrowserProvider';
 
 export function activate(context: vscode.ExtensionContext) {
+	vscode.window.registerTreeDataProvider(`iunit.RepoExplorer`, new ObjectExplorer(context));
 
 	let disposable = vscode.commands.registerCommand('vscode-react-webview-starter.openWebview', () => {
 		const panel = vscode.window.createWebviewPanel(
@@ -17,7 +19,6 @@ export function activate(context: vscode.ExtensionContext) {
 				retainContextWhenHidden: true
 			}
 		);
-
 		panel.webview.onDidReceiveMessage(message => {
 			const { command, requestId, payload } = message;
 		
